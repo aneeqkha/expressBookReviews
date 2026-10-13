@@ -1,0 +1,5 @@
+$ curl -s -X POST http://localhost:5010/customer/login -H 'Content-Type: application/json' -c '<temporary-cookie-jar>' -d '$U'
+{"message":"User successfully logged in"}
+
+$ curl -s -X POST http://localhost:5010/customer/login -H 'Content-Type: application/json' -c '<temporary-cookie-jar>' -d '$U'
+{"message":"User successfully logged in"}

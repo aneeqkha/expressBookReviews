@@ -1,0 +1,17 @@
+$ curl -s http://localhost:5010/isbn/1 | jq .
+{
+  "message": "Error retrieving book"
+}
+
+$ curl -s http://localhost:5010/isbn/1 | jq .
+{
+  "message": "Error retrieving book"
+}
+
+
+$ curl -s http://localhost:5010/isbn/1 | jq .
+{
+  "author": "Chinua Achebe",
+  "title": "Things Fall Apart",
+  "reviews": {}
+}

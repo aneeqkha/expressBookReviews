@@ -1,0 +1,11 @@
+$ curl -s -X POST http://localhost:5010/register -H 'Content-Type: application/json' -d '$U'
+{"message":"User successfully registered. Now you can login"}
+
+$ curl -s -X POST http://localhost:5010/register -H 'Content-Type: application/json' -d '$U'
+{"message":"User already exists"}
+
+$ curl -s -X POST http://localhost:5010/register -H 'Content-Type: application/json' -d '$U'
+{"message":"User successfully registered. Now you can login"}
+
+$ curl -s -X POST http://localhost:5010/register -H 'Content-Type: application/json' -d '$U'
+{"message":"User already exists"}

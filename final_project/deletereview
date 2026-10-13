@@ -1,0 +1,5 @@
+$ curl -s -X DELETE http://localhost:5010/customer/auth/review/1 -b '<temporary-cookie-jar>'
+{"message":"Review for ISBN 1 deleted"}
+
+$ curl -s -X DELETE http://localhost:5010/customer/auth/review/1 -b '<temporary-cookie-jar>'
+{"message":"Review for ISBN 1 deleted"}

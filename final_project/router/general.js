@@ -1,12 +1,16 @@
 const express = require('express');
 const axios = require('axios');
+const { PORT } = require('../config.js');
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
 let books = require("./booksdb.js");
 const public_users = express.Router();
 
-const BASE = "http://localhost:5000";
-const getBooks = async () => (await axios.get(`${BASE}/booksdata`)).data;
+const BASE = `http://127.0.0.1:${PORT}`;
+const getBooks = async () => (await axios.get(`${BASE}/booksdata`, {
+  timeout: 5000,
+  proxy: false
+})).data;
 
 // Internal data source
 public_users.get('/booksdata', (req, res) => res.status(200).json(books));
@@ -26,7 +30,10 @@ public_users.post("/register", (req, res) => {
 public_users.get('/', async (req, res) => {
   try {
     return res.status(200).send(JSON.stringify(await getBooks(), null, 4));
-  } catch (e) { return res.status(500).json({ message: "Error retrieving books" }); }
+  } catch (e) {
+    console.error("Error retrieving books:", e.message);
+    return res.status(500).json({ message: "Error retrieving books" });
+  }
 });
 
 // By ISBN
@@ -36,7 +43,10 @@ public_users.get('/isbn/:isbn', async (req, res) => {
     const book = all[req.params.isbn];
     return book ? res.status(200).json(book)
                 : res.status(404).json({ message: "Book not found" });
-  } catch (e) { return res.status(500).json({ message: "Error retrieving book" }); }
+  } catch (e) {
+    console.error("Error retrieving book:", e.message);
+    return res.status(500).json({ message: "Error retrieving book" });
+  }
 });
 
 // By author
@@ -48,7 +58,10 @@ public_users.get('/author/:author', async (req, res) => {
       .map(([isbn, b]) => ({ isbn, ...b }));
     return result.length ? res.status(200).json({ booksbyauthor: result })
                          : res.status(404).json({ message: "No books found for author" });
-  } catch (e) { return res.status(500).json({ message: "Error retrieving books" }); }
+  } catch (e) {
+    console.error("Error retrieving books:", e.message);
+    return res.status(500).json({ message: "Error retrieving books" });
+  }
 });
 
 // By title
@@ -60,7 +73,10 @@ public_users.get('/title/:title', async (req, res) => {
       .map(([isbn, b]) => ({ isbn, ...b }));
     return result.length ? res.status(200).json({ booksbytitle: result })
                          : res.status(404).json({ message: "No books found with title" });
-  } catch (e) { return res.status(500).json({ message: "Error retrieving books" }); }
+  } catch (e) {
+    console.error("Error retrieving books:", e.message);
+    return res.status(500).json({ message: "Error retrieving books" });
+  }
 });
 
 // Reviews
